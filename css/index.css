@@ -4456,6 +4456,7 @@ img {
 }
 .search-dialog {
   position: fixed;
+  border-radius: 20px;
   top: 5rem;
   left: 50%;
   z-index: 1001;
