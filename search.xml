@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>博弈论学习（一）</title>
+    <url>/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><ul>
+<li>不要选择劣势策略</li>
+<li>理性的选择导致非最优结果</li>
+<li>想获得某些事物之前必定要试图做/了解他</li>
+<li>站在别人的立场上分析他们会怎么做</li>
+<li>耶鲁大学的学生很自私（2333）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Hexo + GitPages + PicGo搭建你的第一个静态个人博客教程（踩坑实践）</title>
     <url>/2020/03/01/hexo-gitpages-picgo%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h3 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h3><p>心血来潮，都二十多岁的人了还没有一个自己的博客，确实说不过去，最近因为疫情原因也确实有了有史以来最长的一个寒假，除了学习<code>+</code>玩耍，我发现我越来越想要在某些方面留下些属于自己的印记，或是记录，或是分享。不管怎么样，这是真正动笔的第一篇<code>blog</code>，一个全新的开始，加油吧！</p>
