@@ -37,13 +37,13 @@
 <li><p>进入到<code>workspaces</code>文件夹，鼠标点击右键，选择Git Bash Here，弹出一个黑色命令框，那么一切就从这里开始了。</p>
 </li>
 <li><p>输入命令：<code>node -v</code>。顾名思义，这个命令用于检测刚刚你是否装好了node。</p>
-<p><a href="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302195054.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302195054.png" class="lazyload"></a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302195054.png" alt=""></p>
 <p>如图所示，我这里已经装好了v12.16.1版本</p>
 </li>
 <li><p>接下来安装Hexo，输入命令：<code>npm install -g hexo-cli</code>。这里可能提示你没有安装npm命令，通常是因为你的node没有正确安装，输入<code>yum install -y nodejs</code>重新安装即可。</p>
 </li>
 <li><p>查看版本：输入<code>hexo -v</code>，见到如下场景，说明安装成功。</p>
-<p><a href="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302201627.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302201627.png" class="lazyload"></a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302201627.png" alt=""></p>
 </li>
 <li><p>初始化hexo：输入命令<code>hexo init myblog</code>。该命令会在当前目录下创建并初始化hexo的工作目录名为<code>myblog</code>。</p>
 </li>
@@ -51,7 +51,7 @@
 </li>
 </ul>
 <h4 id="构建你的本地Hexo博客"><a href="#构建你的本地Hexo博客" class="headerlink" title="构建你的本地Hexo博客"></a>构建你的本地Hexo博客</h4><p>完成hexo初始化后，我们不妨尝试先看看我们的博客到底是怎么样子，继续在上面的GitBash窗口输入以下命令：</p>
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g&#x2F;&#x2F;构建hexo博客文件</span><br><span class="line">hexo s&#x2F;&#x2F;启动hexo本地服务器</span><br></pre></td></tr></table></figure></div>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g&#x2F;&#x2F;构建hexo博客文件</span><br><span class="line">hexo s&#x2F;&#x2F;启动hexo本地服务器</span><br></pre></td></tr></table></figure>
 
 <p>如此，在浏览器输入<code>localhost:4000</code>，如果看到hexo的博客首页，说明你的博客已经可以在本地运行了。</p>
 ]]></content>
