@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="算法," />
 
 
 
@@ -79,15 +79,16 @@
 
 
 
-<meta name="description" content="策略 不要选择劣势策略。 理性的选择导致非最优结果。 想获得某些事物之前必定要试图做&#x2F;了解他。 站在别人的立场上分析他们会怎么做。 耶鲁大学的学生很自私（2333）。">
+<meta name="description" content="题目描述给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。 Sunday算法这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。 1234567891011121314">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博弈论学习（一）">
-<meta property="og:url" content="http://uestc-toy.github.io/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:title" content="28. 实现 strStr()--简单难度？">
+<meta property="og:url" content="http://uestc-toy.github.io/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/index.html">
 <meta property="og:site_name" content="小yi的blog">
-<meta property="og:description" content="策略 不要选择劣势策略。 理性的选择导致非最优结果。 想获得某些事物之前必定要试图做&#x2F;了解他。 站在别人的立场上分析他们会怎么做。 耶鲁大学的学生很自私（2333）。">
-<meta property="article:published_time" content="2020-03-03T10:37:00.000Z">
-<meta property="article:modified_time" content="2020-03-03T12:00:49.323Z">
+<meta property="og:description" content="题目描述给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。 Sunday算法这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。 1234567891011121314">
+<meta property="article:published_time" content="2020-03-07T12:24:10.000Z">
+<meta property="article:modified_time" content="2020-03-07T12:54:45.165Z">
 <meta property="article:author" content="tosang">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://uestc-toy.github.io/2020/03/03/博弈论学习（一）/"/>
+  <link rel="canonical" href="http://uestc-toy.github.io/2020/03/07/28-实现-strStr-简单难度？/"/>
 
 
 
 
 
-  <title>博弈论学习（一） | 小yi的blog</title>
+  <title>28. 实现 strStr()--简单难度？ | 小yi的blog</title>
   
 
 
@@ -295,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://uestc-toy.github.io/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://uestc-toy.github.io/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="tosang">
@@ -312,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">博弈论学习（一）</h1>
+          <h1 class="post-title" itemprop="name headline">28. 实现 strStr()--简单难度？</h1>
         
 
         <div class="post-meta">
@@ -324,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-03T18:37:00+08:00">
-                2020-03-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-07T20:24:10+08:00">
+                2020-03-07
               </time>
             
 
@@ -347,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">课程学习</span>
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
                   </a>
                 </span>
 
@@ -365,8 +366,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="commentCount"></span>
+                <a href="/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,7 +375,7 @@
 
           
           
-             <span id="/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" class="leancloud_visitors" data-flag-title="博弈论学习（一）">
+             <span id="/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/" class="leancloud_visitors" data-flag-title="28. 实现 strStr()--简单难度？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -405,13 +406,29 @@
       
 
       
-        <h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><ul>
-<li>不要选择劣势策略。</li>
-<li>理性的选择导致非最优结果。</li>
-<li>想获得某些事物之前必定要试图做/了解他。</li>
-<li>站在别人的立场上分析他们会怎么做。</li>
-<li>耶鲁大学的学生很自私（2333）。</li>
-</ul>
+        <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+<h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><p>这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//sunday算法Java实现</span></span><br><span class="line">    <span class="keyword">int</span> MAXSIZE = <span class="number">256</span>;</span><br><span class="line">    <span class="keyword">int</span> moveLength[] = <span class="keyword">new</span> <span class="keyword">int</span>[MAXSIZE];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        getMoveLength(needle);</span><br><span class="line">        <span class="keyword">int</span> len1 = haystack.length();</span><br><span class="line">        <span class="keyword">int</span> len2 = needle.length();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(needle==<span class="keyword">null</span>||<span class="string">""</span>.equals(needle))</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; len1) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(  ;j &lt; len2 &amp;&amp; i + j &lt; len1 &amp;&amp; haystack.charAt(i + j) == needle.charAt(j); ++ j);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(j &gt;= len2) <span class="keyword">return</span> i;</span><br><span class="line">            <span class="keyword">if</span>(i + len2 &gt;= len1)</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            i+=moveLength[haystack.charAt(i + len2)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getMoveLength</span><span class="params">(String needle)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//关键！，根据256种字符类型而不是needle串中的字符确定移动步数</span></span><br><span class="line">        <span class="keyword">int</span> len = needle.length();   </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; MAXSIZE; ++ i)</span><br><span class="line">        <span class="comment">//初始化</span></span><br><span class="line">            moveLength[i] = len + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;len ; ++ i)&#123;</span><br><span class="line">            moveLength[needle.charAt(i)] = len - i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><p>从前往后匹配，每次匹配过程的末尾的下一位去检查该字符是否存在于模式串中：</p>
+<ol>
+<li><p>若存在于模式串中，则返回<code>i</code>的移动步数<code>move=</code>模式串长度<code>-</code> 所在字符的位置最后一个出现位置</p>
+</li>
+<li><p>若不存在，则<code>move</code>=模式串长度<code>+</code>1</p>
+</li>
+</ol>
+<p>算法本身其实很容易理解，主要在实现查询办法时需要注意，每次去模式串中查找某个字符效率会比较低下，且算法设计很冗余，较好的办法可以如上述代码，<strong>设计一个大小为<code>256</code>的数组</strong>，用于存储每个字符的移动步数，这样检索时不会有重复检索问题，效率会高不少。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>缺点很明显，主要有两点：</p>
+<ol>
+<li><p>即已经匹配的部分字符串完全没有利用，被浪费。</p>
+</li>
+<li><p><code>Sunday</code>算法的效率受到匹配串和模式串的影响。</p>
+<p>主串：baaaabaaaabaaaabaaaa</p>
+<p>模式串：aaaaa</p>
+<p>这个模式串使得move[a]的值为1，即每次匹配失败时，只让模式串向后移动一位再进行匹配。这样就让Sunday算法的时间复杂度飙升到了<code>O(m*n)</code>，即字符串匹配常规情况。</p>
+</li>
+</ol>
+<p>此外，不得不吐槽的是，<code>Leetcode</code>官方认为这道题时简单题，给出的数据完全对Sunday算法不利，反而常规算法这道题效率更高。</p>
 
       
     </div>
@@ -432,7 +449,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://uestc-toy.github.io/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" title="博弈论学习（一）">http://uestc-toy.github.io/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</a>
+    <a href="http://uestc-toy.github.io/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/" title="28. 实现 strStr()--简单难度？">http://uestc-toy.github.io/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -444,6 +461,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+        </div>
       
 
       
@@ -469,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/01/hexo-gitpages-picgo%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/" rel="next" title="Hexo + GitPages + PicGo搭建你的第一个静态个人博客教程（踩坑实践）">
-                <i class="fa fa-chevron-left"></i> Hexo + GitPages + PicGo搭建你的第一个静态个人博客教程（踩坑实践）
+              <a href="/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" rel="next" title="博弈论学习（一）">
+                <i class="fa fa-chevron-left"></i> 博弈论学习（一）
               </a>
             
           </div>
@@ -478,10 +501,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/" rel="prev" title="28. 实现 strStr()--简单难度？">
-                28. 实现 strStr()--简单难度？ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -636,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#策略"><span class="nav-number">1.</span> <span class="nav-text">策略</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sunday算法"><span class="nav-number">2.</span> <span class="nav-text">Sunday算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法思想"><span class="nav-number">3.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">4.</span> <span class="nav-text">缺点</span></a></li></ol></div>
             
 
           </div>
