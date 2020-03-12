@@ -3,23 +3,19 @@
   <entry>
     <title>33. 搜索旋转排序数组</title>
     <url>/2020/03/10/33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。</p>
-<p>( 例如，数组 <code>[0,1,2,4,5,6,7]</code> 可能变为 <code>[4,5,6,7,0,1,2]</code> )。</p>
-<p>搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 <code>-1</code> 。</p>
-<p>你可以假设数组中不存在重复的元素。</p>
-<p>你的算法时间复杂度必须是 <code>O(log n)</code> 级别。</p>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note primary"><p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。( 例如，数组 <code>[0,1,2,4,5,6,7]</code> 可能变为 <code>[4,5,6,7,0,1,2]</code> )。搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 <code>-1</code> 。你可以假设数组中不存在重复的元素。你的算法时间复杂度必须是 <code>O(log n)</code> 级别。</p></div>
+
 <a id="more"></a>
 
-
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>该题有两个关键点：</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><div class="note success"><p>该题有两个关键点：</p>
 <ol>
 <li>如何理解旋转：题中的旋转是在一个<strong>点</strong>旋转，所以对于数组如<code>[1,2,3]</code>，不存在类似这样的旋转结果：<code>[3,2,1]</code></li>
 <li>要求时间复杂度为 <code>O(logn)</code>，很容易想到应该用二分法，但关键在于如何讨论出所有可能情况。</li>
-</ol>
+</ol></div>
+
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//二分查找:分三种情况，左边有序，右边有序，左右都有序</span></span><br><span class="line">        <span class="comment">//使用位运算代替乘除法（常用的优化办法）</span></span><br><span class="line">        <span class="keyword">int</span> len = nums.length;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = len-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(len == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            mid = (left+right)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid]==target)</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&lt;=nums[mid]&amp;&amp;nums[mid]&lt;=nums[right])&#123;<span class="comment">//左右都有序</span></span><br><span class="line">                <span class="keyword">if</span>(target&gt;nums[mid])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&lt;=nums[mid]&amp;&amp;nums[mid]&gt;=nums[right])&#123;<span class="comment">//左边有序，右边无序</span></span><br><span class="line">                <span class="keyword">if</span>(target&gt;nums[mid])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid]&amp;&amp;target&lt;nums[left])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&gt;=nums[mid]&amp;&amp;nums[mid]&lt;=nums[right])&#123;<span class="comment">//左边无序，右边有序</span></span><br><span class="line">                <span class="keyword">if</span>(target&lt;nums[mid])</span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(target&gt;nums[mid]&amp;&amp;target&gt;nums[right])</span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    left  = mid + <span class="number">1</span>;    </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>不得不说位运算是个神器，时间消耗只有传统乘除法的<code>1/4</code>，同时位运算也是实现乘除法的一种办法。</p>
-]]></content>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><div class="note warning"><p>不得不说位运算是个神器，时间消耗只有传统乘除法的<code>1/4</code>，同时位运算也是实现乘除法的一种办法。</p></div>]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
@@ -30,22 +26,24 @@
   <entry>
     <title>28. 实现 strStr()--简单难度？</title>
     <url>/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/</url>
-    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note default"><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p></div>
+
 <a id="more"></a>
 
+<h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><div class="note info"><p>这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。</p></div>
 
-<h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><p>这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//sunday算法Java实现</span></span><br><span class="line">    <span class="keyword">int</span> MAXSIZE = <span class="number">256</span>;</span><br><span class="line">    <span class="keyword">int</span> moveLength[] = <span class="keyword">new</span> <span class="keyword">int</span>[MAXSIZE];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        getMoveLength(needle);</span><br><span class="line">        <span class="keyword">int</span> len1 = haystack.length();</span><br><span class="line">        <span class="keyword">int</span> len2 = needle.length();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(needle==<span class="keyword">null</span>||<span class="string">""</span>.equals(needle))</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; len1) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(  ;j &lt; len2 &amp;&amp; i + j &lt; len1 &amp;&amp; haystack.charAt(i + j) == needle.charAt(j); ++ j);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(j &gt;= len2) <span class="keyword">return</span> i;</span><br><span class="line">            <span class="keyword">if</span>(i + len2 &gt;= len1)</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            i+=moveLength[haystack.charAt(i + len2)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getMoveLength</span><span class="params">(String needle)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//关键！，根据256种字符类型而不是needle串中的字符确定移动步数</span></span><br><span class="line">        <span class="keyword">int</span> len = needle.length();   </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; MAXSIZE; ++ i)</span><br><span class="line">        <span class="comment">//初始化</span></span><br><span class="line">            moveLength[i] = len + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;len ; ++ i)&#123;</span><br><span class="line">            moveLength[needle.charAt(i)] = len - i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><p>从前往后匹配，每次匹配过程的末尾的下一位去检查该字符是否存在于模式串中：</p>
+<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><div class="note primary"><p>从前往后匹配，每次匹配过程的末尾的下一位去检查该字符是否存在于模式串中：</p>
 <ol>
 <li><p>若存在于模式串中，则返回<code>i</code>的移动步数<code>move=</code>模式串长度<code>-</code> 所在字符的位置最后一个出现位置</p>
 </li>
 <li><p>若不存在，则<code>move</code>=模式串长度<code>+</code>1</p>
 </li>
 </ol>
-<p>算法本身其实很容易理解，主要在实现查询办法时需要注意，每次去模式串中查找某个字符效率会比较低下，且算法设计很冗余，较好的办法可以如上述代码，<strong>设计一个大小为<code>256</code>的数组</strong>，用于存储每个字符的移动步数，这样检索时不会有重复检索问题，效率会高不少。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>缺点很明显，主要有两点：</p>
+<p>算法本身其实很容易理解，主要在实现查询办法时需要注意，每次去模式串中查找某个字符效率会比较低下，且算法设计很冗余，较好的办法可以如上述代码，<strong>设计一个大小为<code>256</code>的数组</strong>，用于存储每个字符的移动步数，这样检索时不会有重复检索问题，效率会高不少。</p></div>
+
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><div class="note warning"><p>缺点很明显，主要有两点：</p>
 <ol>
 <li><p>即已经匹配的部分字符串完全没有利用，被浪费。</p>
 </li>
@@ -55,8 +53,7 @@
 <p>这个模式串使得move[a]的值为1，即每次匹配失败时，只让模式串向后移动一位再进行匹配。这样就让Sunday算法的时间复杂度飙升到了<code>O(m*n)</code>，即字符串匹配常规情况。</p>
 </li>
 </ol>
-<p>此外，不得不吐槽的是，<code>Leetcode</code>官方认为这道题时简单题，给出的数据完全对Sunday算法不利，反而常规算法这道题效率更高。</p>
-]]></content>
+<p>此外，不得不吐槽的是，<code>Leetcode</code>官方认为这道题时简单题，给出的数据完全对Sunday算法不利，反而常规算法这道题效率更高。</p></div>]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
@@ -67,14 +64,13 @@
   <entry>
     <title>博弈论学习（一）</title>
     <url>/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><ul>
+    <content><![CDATA[<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><div class="note success"><ul>
 <li>不要选择劣势策略。</li>
 <li>理性的选择导致非最优结果。</li>
 <li>想获得某些事物之前必定要试图做/了解他。</li>
 <li>站在别人的立场上分析他们会怎么做。</li>
 <li>耶鲁大学的学生很自私（2333）。</li>
-</ul>
-]]></content>
+</ul></div>]]></content>
       <categories>
         <category>课程学习</category>
       </categories>
@@ -82,21 +78,21 @@
   <entry>
     <title>Hexo + GitPages + PicGo搭建你的第一个静态个人博客教程（踩坑实践）</title>
     <url>/2020/03/01/hexo-gitpages-picgo%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h3 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h3><p>心血来潮，都二十多岁的人了还没有一个自己的博客，确实说不过去，最近因为疫情原因也确实有了有史以来最长的一个寒假，除了学习<code>+</code>玩耍，我发现我越来越想要留下些属于自己的印记，或是记录，或是分享。不管怎么样，这是真正动笔的第一篇<code>blog</code>，一个全新的开始，加油吧！</p>
+    <content><![CDATA[<h3 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h3><div class="note default"><p>心血来潮，都二十多岁的人了还没有一个自己的博客，确实说不过去，最近因为疫情原因也确实有了有史以来最长的一个寒假，除了学习<code>+</code>玩耍，我发现我越来越想要留下些属于自己的印记，或是记录，或是分享。不管怎么样，这是真正动笔的第一篇<code>blog</code>，一个全新的开始，加油吧！</p></div>
+
 <a id="more"></a>
 
-<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="为什么是Hexo？"><a href="#为什么是Hexo？" class="headerlink" title="为什么是Hexo？"></a>为什么是<code>Hexo</code>？</h4><p>相信对博客或多或少了解的同学都知道<code>WordPress</code>，一款强大的也是普及率最高的个人博客平台，如今几乎各大云平台都提供一键部署功能，可以说在资金到位的情况下（服务器+域名的长期维护费用），<code>WordPress</code>很适合对blog刚刚入门的小白，是的，它简单、成熟且易用。</p>
-<p>但作为学生党，本着能省则省外加多折腾的原则，拥有一款永久免费的blog当然是最吼的。那么<code>Hexo</code>便是这样一款博客框架。<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo</a>是一个快速、简洁且高效的博客框架。<code>Hexo</code> 使用 <a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-<h4 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h4><p>可能你现在并不知道什么叫做<strong><u>静态网页</u></strong>，不用着急，本教程完全带你从零开始搭建你的blog，你只需一步步根据教程往下走，直到你走完全程，你自然会明白这一切。</p>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="为什么是Hexo？"><a href="#为什么是Hexo？" class="headerlink" title="为什么是Hexo？"></a>为什么是<code>Hexo</code>？</h4><div class="note primary"><p>相信对博客或多或少了解的同学都知道<code>WordPress</code>，一款强大的也是普及率最高的个人博客平台，如今几乎各大云平台都提供一键部署功能，可以说在资金到位的情况下（服务器+域名的长期维护费用），<code>WordPress</code>很适合对blog刚刚入门的小白，是的，它简单、成熟且易用。</p>
+<p>但作为学生党，本着能省则省外加多折腾的原则，拥有一款永久免费的blog当然是最吼的。那么<code>Hexo</code>便是这样一款博客框架。<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo</a>是一个快速、简洁且高效的博客框架。<code>Hexo</code> 使用 <a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p></div>
+
+<h4 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h4><div class="note info"><p>可能你现在并不知道什么叫做<strong><u>静态网页</u></strong>，不用着急，本教程完全带你从零开始搭建你的blog，你只需一步步根据教程往下走，直到你走完全程，你自然会明白这一切。</p>
 <ul>
-<li><p>使用平台：Windows。</p>
-</li>
-<li><p>下载并安装<a href="http://nodejs.org/" target="_blank" rel="noopener">Node.js</a>，点击选择符合你电脑的<strong>直装版本</strong>即可。</p>
-</li>
-<li><p>下载并安装<a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a>，根据官方疯狂下一步即可。</p>
-</li>
-</ul>
-<h4 id="使用Git-Bash安装并初始化Hexo"><a href="#使用Git-Bash安装并初始化Hexo" class="headerlink" title="使用Git Bash安装并初始化Hexo"></a>使用Git Bash安装并初始化Hexo</h4><p>安装好Git之后，它会创建Git Bash和Git GUI两个程序，分别是终端和可视化版本，我们这里只需要用到Git Bash这个程序。</p>
+<li>使用平台：Windows。</li>
+<li>下载并安装<a href="http://nodejs.org/" target="_blank" rel="noopener">Node.js</a>，点击选择符合你电脑的<strong>直装版本</strong>即可。</li>
+<li>下载并安装<a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a>，根据官方疯狂下一步即可。</li>
+</ul></div>
+
+<h4 id="使用Git-Bash安装并初始化Hexo"><a href="#使用Git-Bash安装并初始化Hexo" class="headerlink" title="使用Git Bash安装并初始化Hexo"></a>使用Git Bash安装并初始化Hexo</h4><div class="note info"><p>安装好Git之后，它会创建Git Bash和Git GUI两个程序，分别是终端和可视化版本，我们这里只需要用到Git Bash这个程序。</p>
 <ul>
 <li><p>第一步给你的博客建立一个本地仓库，推荐这样创建文件夹：<code>D/workspaces/</code></p>
 </li>
@@ -115,12 +111,12 @@
 </li>
 <li><p>首先使用命令<code>cd myblog</code>进入到该文件夹，然后输入命令<code>npm install</code>安装相关依赖。</p>
 </li>
-</ul>
-<h4 id="构建你的本地Hexo博客"><a href="#构建你的本地Hexo博客" class="headerlink" title="构建你的本地Hexo博客"></a>构建你的本地Hexo博客</h4><p>完成hexo初始化后，我们不妨尝试先看看我们的博客到底是怎么样子，继续在上面的GitBash窗口输入以下命令：</p>
+</ul></div>
+
+<h4 id="构建你的本地Hexo博客"><a href="#构建你的本地Hexo博客" class="headerlink" title="构建你的本地Hexo博客"></a>构建你的本地Hexo博客</h4><div class="note success"><p>完成hexo初始化后，我们不妨尝试先看看我们的博客到底是怎么样子，继续在上面的GitBash窗口输入以下命令：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g&#x2F;&#x2F;构建hexo博客文件</span><br><span class="line">hexo s&#x2F;&#x2F;启动hexo本地服务器</span><br></pre></td></tr></table></figure>
 
-<p>如此，在浏览器输入<code>localhost:4000</code>，如果看到hexo的博客首页，说明你的博客已经可以在本地运行了。</p>
-]]></content>
+<p>如此，在浏览器输入<code>localhost:4000</code>，如果看到hexo的博客首页，说明你的博客已经可以在本地运行了。</p></div>]]></content>
       <tags>
         <tag>实用教程</tag>
       </tags>
