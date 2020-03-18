@@ -6,6 +6,8 @@
     <content><![CDATA[<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><blockquote>
 <p>最近在学习Netty，其核心便是基于Java的NIO编程封装而来，这篇文章对NIO编程的原理进行介绍，并提供一个NIO编程的完整实践案例。</p>
 </blockquote>
+<a id="more"></a>
+
 <h3 id="什么是Netty"><a href="#什么是Netty" class="headerlink" title="什么是Netty?"></a>什么是Netty?</h3><blockquote>
 <p>Netty的特点总结如下：</p>
 </blockquote>
