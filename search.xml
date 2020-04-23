@@ -12,9 +12,9 @@
 <p>Netty的特点总结如下：</p>
 </blockquote>
 <ul>
-<li><a href="https://baike.baidu.com/item/Netty/10061624?fr=aladdin" target="_blank" rel="noopener">Netty</a>是由JBOSS提供的一个Java开源框架，现在为Github上的独立开发项目。</li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9iYWlrZS5iYWlkdS5jb20vaXRlbS9OZXR0eS8xMDA2MTYyND9mcj1hbGFkZGlu">Netty<i class="fa fa-external-link-alt"></i></span>是由JBOSS提供的一个Java开源框架，现在为Github上的独立开发项目。</li>
 <li>Netty是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络IO程序。</li>
-<li>Netty主要针对在TCP协议下，面向Clients端的高并发应用，或者<a href="https://www.cnblogs.com/linsanshu/p/5546948.html" target="_blank" rel="noopener">Peer-to-Peer</a>场景下的大量数据持续传输的应用。</li>
+<li>Netty主要针对在TCP协议下，面向Clients端的高并发应用，或者<span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vbGluc2Fuc2h1L3AvNTU0Njk0OC5odG1s">Peer-to-Peer<i class="fa fa-external-link-alt"></i></span>场景下的大量数据持续传输的应用。</li>
 <li>Netty的本质是一个NIO框架，用于服务器通信。</li>
 </ul>
 <hr>
@@ -67,7 +67,7 @@
 </ul>
 </blockquote>
 <hr>
-<p><strong>NIO模式示意图如下：</strong><br><img src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/NIO.png" alt="NIO示例图" style="zoom: 80%;" /></p>
+<p><strong>NIO模式示意图如下：</strong><br><img data-src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/NIO.png" alt="NIO示例图" style="zoom: 80%;" /></p>
 <hr>
 <h4 id="关于Channel"><a href="#关于Channel" class="headerlink" title="关于Channel"></a>关于Channel</h4><blockquote>
 <p>基本介绍:</p>
@@ -92,22 +92,18 @@
 
 
 
-<h3 id="NIO编程流程"><a href="#NIO编程流程" class="headerlink" title="NIO编程流程"></a>NIO编程流程</h3><div class="note success"><ol>
-<li>当客户端需要连接时，通过<code>ServerSocketChannel</code>得到<code>SocketChannel</code>对象。</li>
-<li>将该<code>SocketChannel</code>对象注册到<code>Selector</code>上，使用<code>register(Selector sel)</code>方法，在一个<code>selector</code>上可以注册多个<code>SocketChannel</code>对象。（<strong>将监听服务通道和监听到的对象通道均注册到Selector</strong>）</li>
-<li>注册后返回一个<code>SelectionKey</code>，会和该<code>Selector</code>关联（集合）。</li>
-<li><code>Selector</code>进行监听<code>select</code>方法，返回有事件发生的通道个数。</li>
-<li>进一步得到各个<code>SelectionKey</code>。</li>
-<li>通过使用<code>SelectionKey</code>的<code>channel()</code>方法反向获取<code>SocketChannel</code>。</li>
-<li>通过得到的<code>channel</code>完成业务处理。</li>
-</ol></div>
+<h3 id="NIO编程流程"><a href="#NIO编程流程" class="headerlink" title="NIO编程流程"></a>NIO编程流程</h3><div class="note success">
+            <ol><li>当客户端需要连接时，通过<code>ServerSocketChannel</code>得到<code>SocketChannel</code>对象。</li><li>将该<code>SocketChannel</code>对象注册到<code>Selector</code>上，使用<code>register(Selector sel)</code>方法，在一个<code>selector</code>上可以注册多个<code>SocketChannel</code>对象。（<strong>将监听服务通道和监听到的对象通道均注册到Selector</strong>）</li><li>注册后返回一个<code>SelectionKey</code>，会和该<code>Selector</code>关联（集合）。</li><li><code>Selector</code>进行监听<code>select</code>方法，返回有事件发生的通道个数。</li><li>进一步得到各个<code>SelectionKey</code>。</li><li>通过使用<code>SelectionKey</code>的<code>channel()</code>方法反向获取<code>SocketChannel</code>。</li><li>通过得到的<code>channel</code>完成业务处理。</li></ol>
+          </div>
 
 <hr>
 <h3 id="NIO代码实践—简单的多用户聊天服务场景"><a href="#NIO代码实践—简单的多用户聊天服务场景" class="headerlink" title="NIO代码实践—简单的多用户聊天服务场景"></a>NIO代码实践—简单的多用户聊天服务场景</h3><h4 id="服务端：NIOServer"><a href="#服务端：NIOServer" class="headerlink" title="服务端：NIOServer"></a>服务端：NIOServer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tosang.nio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> tosang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2020/3/17</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NIOServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//创建ServerSocketChannel</span></span><br><span class="line">        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//得到一个selector对象</span></span><br><span class="line">        Selector selector = Selector.open();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//绑定一个端口6666，在服务器端监听</span></span><br><span class="line">        serverSocketChannel.socket().bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">6666</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置为非阻塞</span></span><br><span class="line">        serverSocketChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把serverSocketChannel注册到selector，关心的实践为OP_ACCEPT</span></span><br><span class="line">        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//循环等待客户端连接</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="comment">//等待1秒，如果没有事件发生，继续</span></span><br><span class="line">            <span class="keyword">if</span>(selector.select(<span class="number">1000</span>) == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">//没有事件发生</span></span><br><span class="line">                System.out.println(<span class="string">"服务器等待了1秒，无连接"</span>);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果返回的&gt;0,就获取到相关的SelectionKey集合</span></span><br><span class="line">            <span class="comment">//selectionKeys是关注事件的集合</span></span><br><span class="line">            <span class="comment">//通过selectionKeys反向获取通道</span></span><br><span class="line">            Set&lt;SelectionKey&gt; selectionKeys = selector.selectedKeys();</span><br><span class="line">            <span class="comment">//遍历selectionKeys，使用迭代器！！</span></span><br><span class="line">            Iterator&lt;SelectionKey&gt; keyIterator = selectionKeys.iterator();</span><br><span class="line">            <span class="keyword">while</span> (keyIterator.hasNext())&#123;</span><br><span class="line">                <span class="comment">//获取到SelectionKey</span></span><br><span class="line">                SelectionKey key = keyIterator.next();</span><br><span class="line">                <span class="comment">//根据key对应通道发生的事件做相应的处理</span></span><br><span class="line">                <span class="keyword">if</span>(key.isAcceptable())&#123;</span><br><span class="line">                    <span class="comment">//有新的客户端连接</span></span><br><span class="line">                    <span class="comment">//给该客户端生成一个SocketChannel</span></span><br><span class="line">                    <span class="comment">//注意：这里已经知道实际的类型，所以下面的accept()方法</span></span><br><span class="line">                    <span class="comment">//并不会阻塞</span></span><br><span class="line">                    SocketChannel socketChannel = serverSocketChannel.accept();</span><br><span class="line">                    System.out.println(<span class="string">"客户端连接成功，生成了一个通道 "</span>+</span><br><span class="line">                            socketChannel.hashCode());</span><br><span class="line">                    <span class="comment">//将通道设置为非阻塞</span></span><br><span class="line">                    socketChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">                    <span class="comment">//将当前的socketChannel注册到selector，关注事件为</span></span><br><span class="line">                    <span class="comment">//OP_READ(从通道读入到缓冲区)，同时给该socketChannel关联一个buffer</span></span><br><span class="line">                    socketChannel.register(selector,SelectionKey.OP_READ,</span><br><span class="line">                            ByteBuffer.allocate(<span class="number">1024</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(key.isReadable())&#123;</span><br><span class="line">                    <span class="comment">//发生一个OP_READ事件</span></span><br><span class="line">                    <span class="comment">//通过key,反向获取对应的通道</span></span><br><span class="line">                    <span class="comment">//SelectableChannel向下转型为SocketChannel</span></span><br><span class="line">                    SocketChannel channel = (SocketChannel) key.channel();</span><br><span class="line">                    <span class="comment">//获取到该通道关联的buffer</span></span><br><span class="line">                    ByteBuffer buffer = (ByteBuffer)key.attachment();</span><br><span class="line">                    channel.read(buffer);</span><br><span class="line">                    System.out.println(<span class="string">"From 客户端："</span>+<span class="keyword">new</span> String(buffer.array()));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//手动从集合中移除SelectionKey，防止重复操作</span></span><br><span class="line">                keyIterator.remove();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="客户端：NIOClient"><a href="#客户端：NIOClient" class="headerlink" title="客户端：NIOClient"></a>客户端：NIOClient</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tosang.nio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> tosang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2020/3/17</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NIOClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//得到一个网络通道</span></span><br><span class="line">        SocketChannel socketChannel = SocketChannel.open();</span><br><span class="line">        <span class="comment">//设置非阻塞模式</span></span><br><span class="line">        socketChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">//提供服务器端的IP和端口</span></span><br><span class="line">        InetSocketAddress inetSocketAddress = <span class="keyword">new</span> InetSocketAddress(<span class="string">"127.0.0.1"</span>, <span class="number">6666</span>);</span><br><span class="line">        <span class="comment">//连接服务器</span></span><br><span class="line">        <span class="comment">//其中socketChannel.connect判断远程连接是否建立成功</span></span><br><span class="line">        <span class="comment">//socketChannel.finishConnect()判断channel's socket是否连接</span></span><br><span class="line">        <span class="keyword">if</span>(!socketChannel.connect(inetSocketAddress))&#123;</span><br><span class="line">            <span class="keyword">while</span> (!socketChannel.finishConnect())&#123;</span><br><span class="line">                System.out.println(<span class="string">"因为连接需要时间，客户端不会阻塞，可以继续工作"</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果连接成功则发生数据</span></span><br><span class="line">        String str = <span class="string">"hello ,小yi"</span>;</span><br><span class="line">        <span class="comment">//wrap()包裹的含义，返回一个与str大小相等的buffer</span></span><br><span class="line">        <span class="comment">//等价于ByteBuffer buffer = ByteBuffer.allocate(str.getBytes().length);</span></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.wrap(str.getBytes());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//发生数据，将buffer写入通道</span></span><br><span class="line">        socketChannel.write(buffer);</span><br><span class="line">        <span class="comment">//客户端停在此处</span></span><br><span class="line">        System.in.read();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<div class="note warning"><p>启动<code>NIOServer</code>和多个<code>NIOClient</code>，可以看到打印的<code>hashcode</code>值不相等，说明一个<code>Selector</code>同时管理着多个连接。</p></div>]]></content>
+<div class="note warning">
+            <p>启动<code>NIOServer</code>和多个<code>NIOClient</code>，可以看到打印的<code>hashcode</code>值不相等，说明一个<code>Selector</code>同时管理着多个连接。</p>
+          </div>]]></content>
       <categories>
         <category>Java</category>
       </categories>
@@ -119,19 +115,21 @@
   <entry>
     <title>33. 搜索旋转排序数组</title>
     <url>/2020/03/10/33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note primary"><p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。( 例如，数组 <code>[0,1,2,4,5,6,7]</code> 可能变为 <code>[4,5,6,7,0,1,2]</code> )。搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 <code>-1</code> 。你可以假设数组中不存在重复的元素。你的算法时间复杂度必须是 <code>O(log n)</code> 级别。</p></div>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note primary">
+            <p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。( 例如，数组 <code>[0,1,2,4,5,6,7]</code> 可能变为 <code>[4,5,6,7,0,1,2]</code> )。搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 <code>-1</code> 。你可以假设数组中不存在重复的元素。你的算法时间复杂度必须是 <code>O(log n)</code> 级别。</p>
+          </div>
 
 <a id="more"></a>
 
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><div class="note success"><p>该题有两个关键点：</p>
-<ol>
-<li>如何理解旋转：题中的旋转是在一个<strong>点</strong>旋转，所以对于数组如<code>[1,2,3]</code>，不存在类似这样的旋转结果：<code>[3,2,1]</code></li>
-<li>要求时间复杂度为 <code>O(logn)</code>，很容易想到应该用二分法，但关键在于如何讨论出所有可能情况。</li>
-</ol></div>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><div class="note success">
+            <p>该题有两个关键点：</p><ol><li>如何理解旋转：题中的旋转是在一个<strong>点</strong>旋转，所以对于数组如<code>[1,2,3]</code>，不存在类似这样的旋转结果：<code>[3,2,1]</code></li><li>要求时间复杂度为 <code>O(logn)</code>，很容易想到应该用二分法，但关键在于如何讨论出所有可能情况。</li></ol>
+          </div>
 
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//二分查找:分三种情况，左边有序，右边有序，左右都有序</span></span><br><span class="line">        <span class="comment">//使用位运算代替乘除法（常用的优化办法）</span></span><br><span class="line">        <span class="keyword">int</span> len = nums.length;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = len-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(len == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            mid = (left+right)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid]==target)</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&lt;=nums[mid]&amp;&amp;nums[mid]&lt;=nums[right])&#123;<span class="comment">//左右都有序</span></span><br><span class="line">                <span class="keyword">if</span>(target&gt;nums[mid])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&lt;=nums[mid]&amp;&amp;nums[mid]&gt;=nums[right])&#123;<span class="comment">//左边有序，右边无序</span></span><br><span class="line">                <span class="keyword">if</span>(target&gt;nums[mid])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid]&amp;&amp;target&lt;nums[left])</span><br><span class="line">                    left = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&gt;=nums[mid]&amp;&amp;nums[mid]&lt;=nums[right])&#123;<span class="comment">//左边无序，右边有序</span></span><br><span class="line">                <span class="keyword">if</span>(target&lt;nums[mid])</span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(target&gt;nums[mid]&amp;&amp;target&gt;nums[right])</span><br><span class="line">                    right = mid - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    left  = mid + <span class="number">1</span>;    </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><div class="note warning"><p>不得不说位运算是个神器，时间消耗只有传统乘除法的<code>1/4</code>，同时位运算也是实现乘除法的一种办法。</p></div>]]></content>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><div class="note warning">
+            <p>不得不说位运算是个神器，时间消耗只有传统乘除法的<code>1/4</code>，同时位运算也是实现乘除法的一种办法。</p>
+          </div>]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
@@ -142,34 +140,25 @@
   <entry>
     <title>28. 实现 strStr()--简单难度？</title>
     <url>/2020/03/07/28-%E5%AE%9E%E7%8E%B0-strStr-%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6%EF%BC%9F/</url>
-    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note default"><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p></div>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><div class="note default">
+            <p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+          </div>
 
 <a id="more"></a>
 
-<h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><div class="note info"><p>这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。</p></div>
+<h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><div class="note info">
+            <p>这是一道字符串匹配的常见题型，常规算法两个for循环解决；但是，除了KMP这种不太容易手撕的算法外，Sunday算法可以说是一种非常容易理解和实现的算法。</p>
+          </div>
 
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//sunday算法Java实现</span></span><br><span class="line">    <span class="keyword">int</span> MAXSIZE = <span class="number">256</span>;</span><br><span class="line">    <span class="keyword">int</span> moveLength[] = <span class="keyword">new</span> <span class="keyword">int</span>[MAXSIZE];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        getMoveLength(needle);</span><br><span class="line">        <span class="keyword">int</span> len1 = haystack.length();</span><br><span class="line">        <span class="keyword">int</span> len2 = needle.length();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(needle==<span class="keyword">null</span>||<span class="string">""</span>.equals(needle))</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; len1) &#123;</span><br><span class="line">            <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(  ;j &lt; len2 &amp;&amp; i + j &lt; len1 &amp;&amp; haystack.charAt(i + j) == needle.charAt(j); ++ j);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(j &gt;= len2) <span class="keyword">return</span> i;</span><br><span class="line">            <span class="keyword">if</span>(i + len2 &gt;= len1)</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            i+=moveLength[haystack.charAt(i + len2)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getMoveLength</span><span class="params">(String needle)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//关键！，根据256种字符类型而不是needle串中的字符确定移动步数</span></span><br><span class="line">        <span class="keyword">int</span> len = needle.length();   </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; MAXSIZE; ++ i)</span><br><span class="line">        <span class="comment">//初始化</span></span><br><span class="line">            moveLength[i] = len + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;len ; ++ i)&#123;</span><br><span class="line">            moveLength[needle.charAt(i)] = len - i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><div class="note primary"><p>从前往后匹配，每次匹配过程的末尾的下一位去检查该字符是否存在于模式串中：</p>
-<ol>
-<li><p>若存在于模式串中，则返回<code>i</code>的移动步数<code>move=</code>模式串长度<code>-</code> 所在字符的位置最后一个出现位置</p>
-</li>
-<li><p>若不存在，则<code>move</code>=模式串长度<code>+</code>1</p>
-</li>
-</ol>
-<p>算法本身其实很容易理解，主要在实现查询办法时需要注意，每次去模式串中查找某个字符效率会比较低下，且算法设计很冗余，较好的办法可以如上述代码，<strong>设计一个大小为<code>256</code>的数组</strong>，用于存储每个字符的移动步数，这样检索时不会有重复检索问题，效率会高不少。</p></div>
+<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><div class="note primary">
+            <p>从前往后匹配，每次匹配过程的末尾的下一位去检查该字符是否存在于模式串中：</p><ol><li><p>若存在于模式串中，则返回<code>i</code>的移动步数<code>move=</code>模式串长度<code>-</code> 所在字符的位置最后一个出现位置</p></li><li><p>若不存在，则<code>move</code>=模式串长度<code>+</code>1</p></li></ol><p>算法本身其实很容易理解，主要在实现查询办法时需要注意，每次去模式串中查找某个字符效率会比较低下，且算法设计很冗余，较好的办法可以如上述代码，<strong>设计一个大小为<code>256</code>的数组</strong>，用于存储每个字符的移动步数，这样检索时不会有重复检索问题，效率会高不少。</p>
+          </div>
 
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><div class="note warning"><p>缺点很明显，主要有两点：</p>
-<ol>
-<li><p>即已经匹配的部分字符串完全没有利用，被浪费。</p>
-</li>
-<li><p><code>Sunday</code>算法的效率受到匹配串和模式串的影响。</p>
-<p>主串：baaaabaaaabaaaabaaaa</p>
-<p>模式串：aaaaa</p>
-<p>这个模式串使得move[a]的值为1，即每次匹配失败时，只让模式串向后移动一位再进行匹配。这样就让Sunday算法的时间复杂度飙升到了<code>O(m*n)</code>，即字符串匹配常规情况。</p>
-</li>
-</ol>
-<p>此外，不得不吐槽的是，<code>Leetcode</code>官方认为这道题时简单题，给出的数据完全对Sunday算法不利，反而常规算法这道题效率更高。</p></div>]]></content>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><div class="note warning">
+            <p>缺点很明显，主要有两点：</p><ol><li><p>即已经匹配的部分字符串完全没有利用，被浪费。</p></li><li><p><code>Sunday</code>算法的效率受到匹配串和模式串的影响。</p><p>主串：baaaabaaaabaaaabaaaa</p><p>模式串：aaaaa</p><p>这个模式串使得move[a]的值为1，即每次匹配失败时，只让模式串向后移动一位再进行匹配。这样就让Sunday算法的时间复杂度飙升到了<code>O(m*n)</code>，即字符串匹配常规情况。</p></li></ol><p>此外，不得不吐槽的是，<code>Leetcode</code>官方认为这道题时简单题，给出的数据完全对Sunday算法不利，反而常规算法这道题效率更高。</p>
+          </div>]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
@@ -180,13 +169,9 @@
   <entry>
     <title>博弈论学习（一）</title>
     <url>/2020/03/03/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><div class="note success"><ul>
-<li>不要选择劣势策略。</li>
-<li>理性的选择导致非最优结果。</li>
-<li>想获得某些事物之前必定要试图做/了解他。</li>
-<li>站在别人的立场上分析他们会怎么做。</li>
-<li>耶鲁大学的学生很自私（2333）。</li>
-</ul></div>]]></content>
+    <content><![CDATA[<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><div class="note success">
+            <ul><li>不要选择劣势策略。</li><li>理性的选择导致非最优结果。</li><li>想获得某些事物之前必定要试图做/了解他。</li><li>站在别人的立场上分析他们会怎么做。</li><li>耶鲁大学的学生很自私（2333）。</li></ul>
+          </div>]]></content>
       <categories>
         <category>课程学习</category>
       </categories>
@@ -194,45 +179,27 @@
   <entry>
     <title>Hexo + GitPages + PicGo搭建你的第一个静态个人博客教程（踩坑实践）</title>
     <url>/2020/03/01/hexo-gitpages-picgo%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h3 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h3><div class="note default"><p>心血来潮，都二十多岁的人了还没有一个自己的博客，确实说不过去，最近因为疫情原因也确实有了有史以来最长的一个寒假，除了学习<code>+</code>玩耍，我发现我越来越想要留下些属于自己的印记，或是记录，或是分享。不管怎么样，这是真正动笔的第一篇<code>blog</code>，一个全新的开始，加油吧！</p></div>
+    <content><![CDATA[<h3 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h3><div class="note default">
+            <p>心血来潮，都二十多岁的人了还没有一个自己的博客，确实说不过去，最近因为疫情原因也确实有了有史以来最长的一个寒假，除了学习<code>+</code>玩耍，我发现我越来越想要留下些属于自己的印记，或是记录，或是分享。不管怎么样，这是真正动笔的第一篇<code>blog</code>，一个全新的开始，加油吧！</p>
+          </div>
 
 <a id="more"></a>
 
-<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="为什么是Hexo？"><a href="#为什么是Hexo？" class="headerlink" title="为什么是Hexo？"></a>为什么是<code>Hexo</code>？</h4><div class="note primary"><p>相信对博客或多或少了解的同学都知道<code>WordPress</code>，一款强大的也是普及率最高的个人博客平台，如今几乎各大云平台都提供一键部署功能，可以说在资金到位的情况下（服务器+域名的长期维护费用），<code>WordPress</code>很适合对blog刚刚入门的小白，是的，它简单、成熟且易用。</p>
-<p>但作为学生党，本着能省则省外加多折腾的原则，拥有一款永久免费的blog当然是最吼的。那么<code>Hexo</code>便是这样一款博客框架。<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo</a>是一个快速、简洁且高效的博客框架。<code>Hexo</code> 使用 <a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p></div>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="为什么是Hexo？"><a href="#为什么是Hexo？" class="headerlink" title="为什么是Hexo？"></a>为什么是<code>Hexo</code>？</h4><div class="note primary">
+            <p>相信对博客或多或少了解的同学都知道<code>WordPress</code>，一款强大的也是普及率最高的个人博客平台，如今几乎各大云平台都提供一键部署功能，可以说在资金到位的情况下（服务器+域名的长期维护费用），<code>WordPress</code>很适合对blog刚刚入门的小白，是的，它简单、成熟且易用。</p><p>但作为学生党，本着能省则省外加多折腾的原则，拥有一款永久免费的blog当然是最吼的。那么<code>Hexo</code>便是这样一款博客框架。<span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlvL3poLWNuL2RvY3Mv">Hexo<i class="fa fa-external-link-alt"></i></span>是一个快速、简洁且高效的博客框架。<code>Hexo</code> 使用 <span class="exturl" data-url="aHR0cDovL2RhcmluZ2ZpcmViYWxsLm5ldC9wcm9qZWN0cy9tYXJrZG93bi8=">Markdown<i class="fa fa-external-link-alt"></i></span>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+          </div>
 
-<h4 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h4><div class="note info"><p>可能你现在并不知道什么叫做<strong><u>静态网页</u></strong>，不用着急，本教程完全带你从零开始搭建你的blog，你只需一步步根据教程往下走，直到你走完全程，你自然会明白这一切。</p>
-<ul>
-<li>使用平台：Windows。</li>
-<li>下载并安装<a href="http://nodejs.org/" target="_blank" rel="noopener">Node.js</a>，点击选择符合你电脑的<strong>直装版本</strong>即可。</li>
-<li>下载并安装<a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a>，根据官方疯狂下一步即可。</li>
-</ul></div>
+<h4 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h4><div class="note info">
+            <p>可能你现在并不知道什么叫做<strong><u>静态网页</u></strong>，不用着急，本教程完全带你从零开始搭建你的blog，你只需一步步根据教程往下走，直到你走完全程，你自然会明白这一切。</p><ul><li>使用平台：Windows。</li><li>下载并安装<span class="exturl" data-url="aHR0cDovL25vZGVqcy5vcmcv">Node.js<i class="fa fa-external-link-alt"></i></span>，点击选择符合你电脑的<strong>直装版本</strong>即可。</li><li>下载并安装<span class="exturl" data-url="aHR0cDovL2dpdC1zY20uY29tLw==">Git<i class="fa fa-external-link-alt"></i></span>，根据官方疯狂下一步即可。</li></ul>
+          </div>
 
-<h4 id="使用Git-Bash安装并初始化Hexo"><a href="#使用Git-Bash安装并初始化Hexo" class="headerlink" title="使用Git Bash安装并初始化Hexo"></a>使用Git Bash安装并初始化Hexo</h4><div class="note info"><p>安装好Git之后，它会创建Git Bash和Git GUI两个程序，分别是终端和可视化版本，我们这里只需要用到Git Bash这个程序。</p>
-<ul>
-<li><p>第一步给你的博客建立一个本地仓库，推荐这样创建文件夹：<code>D/workspaces/</code></p>
-</li>
-<li><p>进入到<code>workspaces</code>文件夹，鼠标点击右键，选择Git Bash Here，弹出一个黑色命令框，那么一切就从这里开始了。</p>
-</li>
-<li><p>输入命令：<code>node -v</code>。顾名思义，这个命令用于检测刚刚你是否装好了node。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302195054.png" alt=""></p>
-<p>如图所示，我这里已经装好了v12.16.1版本</p>
-</li>
-<li><p>接下来安装Hexo，输入命令：<code>npm install -g hexo-cli</code>。这里可能提示你没有安装npm命令，通常是因为你的node没有正确安装，输入<code>yum install -y nodejs</code>重新安装即可。</p>
-</li>
-<li><p>查看版本：输入<code>hexo -v</code>，见到如下场景，说明安装成功。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302201627.png" alt=""></p>
-</li>
-<li><p>初始化hexo：输入命令<code>hexo init myblog</code>。该命令会在当前目录下创建并初始化hexo的工作目录名为<code>myblog</code>。</p>
-</li>
-<li><p>首先使用命令<code>cd myblog</code>进入到该文件夹，然后输入命令<code>npm install</code>安装相关依赖。</p>
-</li>
-</ul></div>
+<h4 id="使用Git-Bash安装并初始化Hexo"><a href="#使用Git-Bash安装并初始化Hexo" class="headerlink" title="使用Git Bash安装并初始化Hexo"></a>使用Git Bash安装并初始化Hexo</h4><div class="note info">
+            <p>安装好Git之后，它会创建Git Bash和Git GUI两个程序，分别是终端和可视化版本，我们这里只需要用到Git Bash这个程序。</p><ul><li><p>第一步给你的博客建立一个本地仓库，推荐这样创建文件夹：<code>D/workspaces/</code></p></li><li><p>进入到<code>workspaces</code>文件夹，鼠标点击右键，选择Git Bash Here，弹出一个黑色命令框，那么一切就从这里开始了。</p></li><li><p>输入命令：<code>node -v</code>。顾名思义，这个命令用于检测刚刚你是否装好了node。</p><p><img data-src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302195054.png" alt=""></p><p>如图所示，我这里已经装好了v12.16.1版本</p></li><li><p>接下来安装Hexo，输入命令：<code>npm install -g hexo-cli</code>。这里可能提示你没有安装npm命令，通常是因为你的node没有正确安装，输入<code>yum install -y nodejs</code>重新安装即可。</p></li><li><p>查看版本：输入<code>hexo -v</code>，见到如下场景，说明安装成功。</p><p><img data-src="https://cdn.jsdelivr.net/gh/uestc-toy/blog_file/img/20200302201627.png" alt=""></p></li><li><p>初始化hexo：输入命令<code>hexo init myblog</code>。该命令会在当前目录下创建并初始化hexo的工作目录名为<code>myblog</code>。</p></li><li><p>首先使用命令<code>cd myblog</code>进入到该文件夹，然后输入命令<code>npm install</code>安装相关依赖。</p></li></ul>
+          </div>
 
-<h4 id="构建你的本地Hexo博客"><a href="#构建你的本地Hexo博客" class="headerlink" title="构建你的本地Hexo博客"></a>构建你的本地Hexo博客</h4><div class="note success"><p>完成hexo初始化后，我们不妨尝试先看看我们的博客到底是怎么样子，继续在上面的GitBash窗口输入以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g&#x2F;&#x2F;构建hexo博客文件</span><br><span class="line">hexo s&#x2F;&#x2F;启动hexo本地服务器</span><br></pre></td></tr></table></figure>
-
-<p>如此，在浏览器输入<code>localhost:4000</code>，如果看到hexo的博客首页，说明你的博客已经可以在本地运行了。</p></div>]]></content>
+<h4 id="构建你的本地Hexo博客"><a href="#构建你的本地Hexo博客" class="headerlink" title="构建你的本地Hexo博客"></a>构建你的本地Hexo博客</h4><div class="note success">
+            <p>完成hexo初始化后，我们不妨尝试先看看我们的博客到底是怎么样子，继续在上面的GitBash窗口输入以下命令：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g&#x2F;&#x2F;构建hexo博客文件</span><br><span class="line">hexo s&#x2F;&#x2F;启动hexo本地服务器</span><br></pre></td></tr></table></figure><p>如此，在浏览器输入<code>localhost:4000</code>，如果看到hexo的博客首页，说明你的博客已经可以在本地运行了。</p>
+          </div>]]></content>
       <tags>
         <tag>实用教程</tag>
       </tags>
